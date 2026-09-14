@@ -14,6 +14,16 @@ class _ProductListPageState extends State<ProductListPage> {
   List<Product> products = [];
   bool isLoading = true;
   String? errorMessage;
+  int total = 0;
+  bool isLoadingMore = false;
+  final ScrollController scrollController = ScrollController();
+
+  void _onScroll() {
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 200) {
+      _loadMore();
+    }
+  }
 
   Future<void> _loadProducts() async {
     setState(() {
@@ -28,6 +38,7 @@ class _ProductListPageState extends State<ProductListPage> {
       );
       setState(() {
         products = productResult.products;
+        total = productResult.total;
         isLoading = false;
       });
     } catch (e) {
@@ -38,10 +49,43 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
+  Future<void> _loadMore() async {
+    if (isLoadingMore) return;
+    if (products.length >= total) return;
+
+    setState(() {
+      isLoadingMore = true;
+    });
+
+    try {
+      final productResult = await ProductApi().fetchProducts(
+        limit: 20,
+        skip: products.length,
+      );
+
+      setState(() {
+        products.addAll(productResult.products);
+        isLoadingMore = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoadingMore = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _loadProducts();
+    scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -73,9 +117,10 @@ class _ProductListPageState extends State<ProductListPage> {
                 return ListTile(
                   leading: Image.network(product.thumbnail),
                   title: Text(product.title),
-                  subtitle: Text(product.price.toString()),
+                  subtitle: Text("RM ${product.price.toString()}"),
                 );
               },
+              controller: scrollController,
             ),
     );
   }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'data/product_api.dart';
 
 Future<void> main() async {
-  debugPrint(await ProductApi().getProducts());
+  final body = await ProductApi().fetchProducts(limit: 20, skip: 0);
+
+  debugPrint(body.products.length.toString());
+  debugPrint(body.total.toString());
+
   runApp(const MyApp());
 }
 

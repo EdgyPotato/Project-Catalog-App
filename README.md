@@ -19,7 +19,7 @@ git clone https://github.com/EdgyPotato/Project-Catalog-App
 cd Project-Catalog-App
 flutter pub get
 flutter run
-````
+```
 
 Make sure Flutter is installed and a supported device or emulator is available. Tested on both Android and Web platforms.
 
@@ -46,35 +46,35 @@ The project uses a simple two layer structure.
 
 ### Required
 
-* [X] Product list with title, thumbnail, and price
-* [x] Infinite scroll pagination
-* [x] Product detail screen
-* [x] Product description, price, rating, and images
-* [x] Loading state
-* [x] Error state with Retry
-* [x] Empty state
-* [x] Debounced search
-* [x] Search pagination
-* [x] Two-layer project organization
+- [x] Product list with title, thumbnail, and price
+- [x] Infinite scroll pagination
+- [x] Product detail screen
+- [x] Product description, price, rating, and images
+- [x] Loading state
+- [x] Error state with Retry
+- [x] Empty state
+- [x] Debounced search
+- [x] Search pagination
+- [x] Two-layer project organization
 
 ### Bonus
 
-* [x] Product model unit test
-* [ ] Pull-to-refresh
-* [ ] Image loading/error fallback
+- [x] Product model unit test
+- [ ] Pull-to-refresh
+- [ ] Image loading/error fallback
 
 ## Testing
 
 The application was tested manually for:
 
-* Initial product loading
-* Infinite-ish scroll pagination
-* Product search
-* Empty search results
-* Clearing the search query
-* Product detail navigation
-* Detail loading
-* Error and Retry behavior
+- Initial product loading
+- Infinite-ish scroll pagination
+- Product search
+- Empty search results
+- Clearing the search query
+- Product detail navigation
+- Detail loading
+- Error and Retry behavior
 
 Technical checks:
 

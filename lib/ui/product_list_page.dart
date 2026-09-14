@@ -12,7 +12,7 @@ class ProductListPage extends StatefulWidget {
 
 class _ProductListPageState extends State<ProductListPage> {
   List<Product> products = [];
-  bool isLoading = false;
+  bool isLoading = true;
   String? errorMessage;
 
   Future<void> _loadProducts() async {
@@ -48,17 +48,35 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Product List')),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return ListTile(
-            leading: Image.network(product.thumbnail),
-            title: Text(product.title),
-            subtitle: Text(product.price.toString()),
-          );
-        },
-      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : errorMessage != null
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(errorMessage!),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _loadProducts,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            )
+          : products.isEmpty
+          ? const Center(child: Text('No products available.'))
+          : ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ListTile(
+                  leading: Image.network(product.thumbnail),
+                  title: Text(product.title),
+                  subtitle: Text(product.price.toString()),
+                );
+              },
+            ),
     );
   }
 }

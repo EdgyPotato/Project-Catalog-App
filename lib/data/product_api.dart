@@ -55,6 +55,17 @@ class ProductApi {
 
     return _decodeJSON(response.body);
   }
+
+  Future<Product> fetchProductById(int id) async {
+    final response = await http.get(
+      Uri.https('dummyjson.com', '/products/$id'),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load product with id $id');
+    }
+    final decodedBody = jsonDecode(response.body);
+    return Product.fromJson(decodedBody);
+  }
 }
 
 class ProductResult {

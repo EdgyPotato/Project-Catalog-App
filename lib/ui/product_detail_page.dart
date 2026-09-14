@@ -81,7 +81,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     const SizedBox(height: 10),
                     Text('Rating: ${product!.rating}'),
                     const SizedBox(height: 10),
-                    Image.network(product!.thumbnail),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: product!.images.length,
+                        itemBuilder: (context, index) {
+                          final imageUrl = product!.images[index];
+
+                          return Image.network(imageUrl);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

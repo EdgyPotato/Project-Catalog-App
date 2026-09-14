@@ -5,19 +5,8 @@ import 'dart:convert';
 import 'product.dart';
 
 class ProductApi {
-  Future<ProductResult> fetchProducts({
-    required int limit,
-    required int skip,
-  }) async {
-    final response = await http.get(
-      Uri.parse('https://dummyjson.com/products?limit=$limit&skip=$skip'),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load products');
-    }
-
-    final decodedBody = jsonDecode(response.body);
+  ProductResult _decodeJSON(String responseBody) {
+    final decodedBody = jsonDecode(responseBody);
     final productsList = decodedBody['products'];
     final int total = decodedBody['total'];
     final List<Product> products = [];
@@ -27,6 +16,44 @@ class ProductApi {
     }
 
     return ProductResult(products: products, total: total);
+  }
+
+  Future<ProductResult> fetchProducts({
+    required int limit,
+    required int skip,
+  }) async {
+    final response = await http.get(
+      Uri.https('dummyjson.com', '/products', {
+        'limit': limit.toString(),
+        'skip': skip.toString(),
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load products');
+    }
+
+    return _decodeJSON(response.body);
+  }
+
+  Future<ProductResult> searchProducts({
+    required String query,
+    required int limit,
+    required int skip,
+  }) async {
+    final response = await http.get(
+      Uri.https('dummyjson.com', '/products/search', {
+        'q': query,
+        'limit': limit.toString(),
+        'skip': skip.toString(),
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to search products');
+    }
+
+    return _decodeJSON(response.body);
   }
 }
 

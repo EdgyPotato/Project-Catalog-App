@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+
 import '/data/product.dart';
 import '/data/product_api.dart';
 
@@ -16,6 +18,8 @@ class _ProductListPageState extends State<ProductListPage> {
   String? errorMessage;
   int total = 0;
   bool isLoadingMore = false;
+  String searchQuery = '';
+  Timer? debounceTimer;
   final ScrollController scrollController = ScrollController();
 
   void _onScroll() {
@@ -23,6 +27,16 @@ class _ProductListPageState extends State<ProductListPage> {
         scrollController.position.maxScrollExtent - 200) {
       _loadMore();
     }
+  }
+
+  void _onSearchChanged(String query) {
+    searchQuery = query;
+
+    debounceTimer?.cancel();
+
+    debounceTimer = Timer(const Duration(milliseconds: 350), () {
+      _doSearch(query);
+    });
   }
 
   Future<void> _loadProducts() async {
@@ -58,10 +72,13 @@ class _ProductListPageState extends State<ProductListPage> {
     });
 
     try {
-      final productResult = await ProductApi().fetchProducts(
-        limit: 20,
-        skip: products.length,
-      );
+      final productResult = searchQuery.trim().isEmpty
+          ? await ProductApi().fetchProducts(limit: 20, skip: products.length)
+          : await ProductApi().searchProducts(
+              query: searchQuery.trim(),
+              limit: 20,
+              skip: products.length,
+            );
 
       setState(() {
         products.addAll(productResult.products);
@@ -70,6 +87,39 @@ class _ProductListPageState extends State<ProductListPage> {
     } catch (e) {
       setState(() {
         isLoadingMore = false;
+      });
+    }
+  }
+
+  Future<void> _doSearch(String query) async {
+    if (query.trim().isEmpty) {
+      await _loadProducts();
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      final productResult = await ProductApi().searchProducts(
+        query: query.trim(),
+        limit: 20,
+        skip: 0,
+      );
+
+      if (query.trim() != searchQuery.trim()) return;
+
+      setState(() {
+        products = productResult.products;
+        total = productResult.total;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+        isLoading = false;
       });
     }
   }
@@ -83,6 +133,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   void dispose() {
+    debounceTimer?.cancel();
     scrollController.removeListener(_onScroll);
     scrollController.dispose();
     super.dispose();
@@ -92,36 +143,43 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Product List')),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : errorMessage != null
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(errorMessage!),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _loadProducts,
-                    child: const Text('Retry'),
+      body: Column(
+        children: [
+          TextField(onChanged: _onSearchChanged),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : errorMessage != null
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(errorMessage!),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _loadProducts,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : products.isEmpty
+                ? const Center(child: Text('No products available.'))
+                : ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return ListTile(
+                        leading: Image.network(product.thumbnail),
+                        title: Text(product.title),
+                        subtitle: Text("RM ${product.price.toString()}"),
+                      );
+                    },
+                    controller: scrollController,
                   ),
-                ],
-              ),
-            )
-          : products.isEmpty
-          ? const Center(child: Text('No products available.'))
-          : ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return ListTile(
-                  leading: Image.network(product.thumbnail),
-                  title: Text(product.title),
-                  subtitle: Text("RM ${product.price.toString()}"),
-                );
-              },
-              controller: scrollController,
-            ),
+          ),
+        ],
+      ),
     );
   }
 }

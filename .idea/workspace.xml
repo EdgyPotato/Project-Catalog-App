@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="8aefffac-2544-4866-aa37-5bed0bf02274" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/catalog_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/catalog_app.iml" afterDir="false" />
+=======
+    <list default="true" id="04f1fe96-d0a0-450f-ac17-8010d24b984e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/lib/ui/product_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/product_list_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,10 +39,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
+<<<<<<< Updated upstream
   "associatedIndex": 2,
   "fromUser": false
 }]]></component>
   <component name="ProjectId" id="3JKaxqDBsGpdh05hEP8WnyDFKgT" />
+=======
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3JKeWJU0gYNX3lKxOtARFk6IFCY" />
+>>>>>>> Stashed changes
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" />
     <panes>
@@ -52,9 +64,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+<<<<<<< Updated upstream
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+=======
+    "Flutter.main.dart.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+>>>>>>> Stashed changes
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
@@ -64,17 +82,29 @@
     "git-widget-placeholder": "product-list-UI",
     "io.flutter.project.isFirstOpen": "true",
     "kotlin-language-version-configured": "true",
+<<<<<<< Updated upstream
     "last_opened_file_path": "D:/Project/catalog_app",
+=======
+    "settings.editor.selected.configurable": "preferences.rainbow.brackets.indent",
+>>>>>>> Stashed changes
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< Updated upstream
       <changelist id="8aefffac-2544-4866-aa37-5bed0bf02274" name="Changes" comment="" />
       <created>1789412463935</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1789412463935</updated>
+=======
+      <changelist id="04f1fe96-d0a0-450f-ac17-8010d24b984e" name="Changes" comment="" />
+      <created>1789414218737</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1789414218737</updated>
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

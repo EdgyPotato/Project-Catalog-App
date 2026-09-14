@@ -25,7 +25,7 @@ class ProductApi {
     for (var productJson in productsList) {
       products.add(Product.fromJson(productJson));
     }
-    
+
     return ProductResult(products: products, total: total);
   }
 }

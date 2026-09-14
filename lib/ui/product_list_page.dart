@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'dart:async';
 
-import '/data/product.dart';
-import '/data/product_api.dart';
+import '../data/product.dart';
+import '../data/product_api.dart';
+import 'product_detail_page.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -173,6 +174,15 @@ class _ProductListPageState extends State<ProductListPage> {
                         leading: Image.network(product.thumbnail),
                         title: Text(product.title),
                         subtitle: Text("RM ${product.price.toString()}"),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailPage(productId: product.id),
+                            ),
+                          );
+                        },
                       );
                     },
                     controller: scrollController,

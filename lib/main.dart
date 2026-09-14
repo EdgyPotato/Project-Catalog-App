@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'data/product_api.dart';
 
-void main() {
+Future<void> main() async {
+  debugPrint(await ProductApi().getProducts());
   runApp(const MyApp());
 }
 
